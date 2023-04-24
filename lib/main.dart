@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dropdown_button1/widgets.dart';
+import 'package:widget_class_examples/widgets.dart';
+import 'package:widget_class_examples/methods.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final dropdownValueProvider = StateProvider((ref) => "Merah");
+final dropdownValueProvider = StateProvider((ref) => "Red");
 final buttonValueProvider = StateProvider((ref) => "Hello World!");
+final checkboxValueProvider = StateProvider((ref) => true);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -26,63 +28,130 @@ class MyApp extends StatelessWidget {
   }
 }
 
-typedef myDropdownButtonFunction = void Function(String);
-typedef myButtonFunction = void Function(String);
+typedef dropdownButtonFunction = void Function(String);
+typedef buttonFunction = void Function(String);
 
 class MyHomePage extends ConsumerWidget {
   MyHomePage({Key? key}) : super(key: key);
 
   Icon myIcon = const Icon(Icons.arrow_forward_ios);
-  List<String> list = ["Merah", "Kuning", "Hijau", "Biru"];
-  String item = "Merah";
+  List<String> list = ["Red", "Yellow", "Green", "Blue"];
+  String item = "Red";
 
-  late String result;
-  String result1="Hello World!";
+  late String resultDropdown;
+  String resultButton = "Hello World!";
+
+  bool checkboxValue = true;
+  String checkboxState = "true";
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void myDropdownButtonFunction(value) {
+    void dropdownButtonFunction(value) {
       ref.read(dropdownValueProvider.notifier).state = value;
     }
 
-    void myButtonFunction() {
-      ref.read(buttonValueProvider.notifier).state = "Hello World, Selamat Datang di Dunia Flutter";
+    void buttonFunction() {
+      ref.read(buttonValueProvider.notifier).state =
+          "Welcome to the world of Flutter.";
     }
 
-    result = ref.watch(dropdownValueProvider);
-    result1 = ref.watch(buttonValueProvider);
+    void textButtonFunction() {
+      ref.read(buttonValueProvider.notifier).state = "Hello World!";
+    }
+
+    void checkboxFunction(value) {
+      ref.read(checkboxValueProvider.notifier).state = value;
+    }
+
+    resultDropdown = ref.watch(dropdownValueProvider);
     item = ref.watch(dropdownValueProvider);
+
+    resultButton = ref.watch(buttonValueProvider);
+
+    checkboxValue = ref.watch(checkboxValueProvider);
+    checkboxState = ref.watch(checkboxValueProvider).toString();
+
     return Scaffold(
         appBar: AppBar(
-          // TRY THIS: Try changing the color here to a specific color (to
-          // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-          // change color while the other colors stay the same.
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text("Contoh Dropdown Button"),
+          title: const Text("Widget Class Examples"),
         ),
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DropdownButtonWgt(
-                  item: item,
-                  list1: list,
-                  //ddColor: Colors.red,
-                  //focusColor: Colors.yellow,
-                  borderRadiusCircular: 20.0,
-                  onChanged1: myDropdownButtonFunction,
-                  icon: myIcon
+              Container(
+                width: 300.0,
+                height: 130.0,
+                decoration: buildBoxDecoration(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Choose the color :"),
+                    const SizedBox(height: 10.0),
+                    DropdownButtonWgt(
+                        item: item,
+                        list1: list,
+                        //ddColor: Colors.red,
+                        //focusColor: Colors.yellow,
+                        borderRadiusCircular: 20.0,
+                        onChanged1: dropdownButtonFunction,
+                        icon: myIcon),
+                    const SizedBox(height: 10.0),
+                    Text("Color : $resultDropdown"),
+                  ],
+                ),
               ),
               const SizedBox(height: 10.0),
-              buttonWgt(text: "Print Hello!", onPressed: myButtonFunction),
+              Container(
+                width: 300.0,
+                height: 100.0,
+                decoration: buildBoxDecoration(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buttonWgt(text: "Say welcome!", onPressed: buttonFunction),
+                    const SizedBox(height: 10.0),
+                    TextButtonWgt(
+                      resultButton: resultButton,
+                      textButtonFunction: textButtonFunction,
+                      //fontSize: 18.0
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(height: 10.0),
-              Text(result),
-              const SizedBox(height: 10.0),
-              Text(result1),
+              Container(
+                width: 300.0,
+                height: 100.0,
+                decoration: buildBoxDecoration(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CheckboxWgt(
+                      checkboxValue: checkboxValue,
+                      checkboxFunction: checkboxFunction,
+                    ),
+                    const SizedBox(height: 10.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Checkbox Status : ",
+                        ),
+                        Text(
+                          checkboxState,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ));
   }
 }
-

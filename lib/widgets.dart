@@ -40,19 +40,11 @@ class DropdownButtonWgt extends ConsumerWidget {
     return Center(
       child: Column(
         children: [
-          //const Text("Pilih :"),
+          //const Text("Choose color :"),
           Container(
             decoration: BoxDecoration(
-              //color: Colors.white, // Warna latar belakang container
+              //color: Colors.white, //
               borderRadius: BorderRadius.circular(borderRadiusCircular??0.0), // Border radius
-/*                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5), // Warna bayangan
-                        blurRadius: 5.0, // Jarak blur bayangan
-                        spreadRadius: 2.0, // Jarak penyebaran bayangan
-                        offset: Offset(0, 3), // Posisi bayangan (x, y)
-                      ),
-                    ],*/
             ),
             child: DropdownButton(
               focusColor: focusColor,
@@ -77,5 +69,58 @@ class DropdownButtonWgt extends ConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+class CheckboxWgt extends StatelessWidget {
+  const CheckboxWgt({
+    super.key,
+    required this.checkboxValue,
+    required this.checkboxFunction
+  });
+
+  final bool checkboxValue;
+  final Function checkboxFunction;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Checkbox(
+          value:checkboxValue,
+          onChanged: (bool? value){
+            checkboxFunction(value);
+          },
+        ),
+        const Text('Able/Disable ...'),
+      ],
+    );
+  }
+}
+
+class TextButtonWgt extends StatelessWidget {
+  TextButtonWgt({super.key,
+    required this.resultButton,
+    required this.textButtonFunction,
+    this.fontSize,
+  });
+
+  final String resultButton;
+  final Function textButtonFunction;
+  double? fontSize=24.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+        onPressed:(){
+          textButtonFunction();
+        },
+        child: Text(
+          resultButton,
+          style: TextStyle(
+            fontSize: fontSize,
+          ),
+        ));
   }
 }

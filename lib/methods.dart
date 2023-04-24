@@ -1,18 +1,12 @@
-properCase(String sentence){
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-  List wordList=sentence.split(" ");
-
-  int nList=wordList.length;
-
-  String newSentence="";
-  String newWord="";
-  for (int i=0;i<nList;i++){
-    newWord=wordList[i][0].toUpperCase()+wordList[i].substring(1);
-    if (i>0){
-      newSentence=newSentence+" "+newWord;
-    } else {
-      newSentence=newWord;
-    }
-  }
-  return newSentence;
+BoxDecoration buildBoxDecoration() {
+  return BoxDecoration(
+    borderRadius: BorderRadius.circular(10),
+    color: Colors.white,
+    border: Border.all(
+      width: 1.0,
+    ),
+  );
 }
