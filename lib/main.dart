@@ -10,6 +10,7 @@ void main() {
 final dropdownValueProvider = StateProvider((ref) => "Red");
 final buttonValueProvider = StateProvider((ref) => "Hello World!");
 final checkboxValueProvider = StateProvider((ref) => true);
+final radioStatusProvider=StateProvider((ref) => -1);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -43,6 +44,8 @@ class MyHomePage extends ConsumerWidget {
 
   bool checkboxValue = true;
   String checkboxState = "true";
+  int radioStatus=0;
+  String gender="Unknown";
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,6 +66,10 @@ class MyHomePage extends ConsumerWidget {
       ref.read(checkboxValueProvider.notifier).state = value;
     }
 
+    void onChangedRadio(value){
+      ref.read(radioStatusProvider.notifier).state=value;
+    }
+
     resultDropdown = ref.watch(dropdownValueProvider);
     item = ref.watch(dropdownValueProvider);
 
@@ -70,6 +77,8 @@ class MyHomePage extends ConsumerWidget {
 
     checkboxValue = ref.watch(checkboxValueProvider);
     checkboxState = ref.watch(checkboxValueProvider).toString();
+
+    radioStatus=ref.watch(radioStatusProvider);
 
     return Scaffold(
         appBar: AppBar(
@@ -110,7 +119,7 @@ class MyHomePage extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    buttonWgt(text: "Say welcome!", onPressed: buttonFunction),
+                    ButtonWgt(text: "Say welcome!", onPressed: buttonFunction),
                     const SizedBox(height: 10.0),
                     TextButtonWgt(
                       resultButton: resultButton,
@@ -150,8 +159,33 @@ class MyHomePage extends ConsumerWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 10.0),
+              Container(
+                width: 300.0,
+                height: 100.0,
+                decoration: buildBoxDecoration(),
+                child: Column(
+                  children: [
+                    GroupRadioWgt(radioStatus: radioStatus,onChangedRadio: onChangedRadio,text1: "Male",text2: "Female"),
+                    const SizedBox(height: 10.0),
+                    Builder(
+                      builder: (context) {
+                        if (radioStatus==0){
+                          gender="Male";
+                        } else if (radioStatus==1){
+                          gender="Female";
+                        } else {
+                          gender="Unknown";
+                        }
+                        return Text("Gender : $gender");
+                      }
+                    )
+                  ],
+                )
+              ),
             ],
           ),
         ));
   }
 }
+

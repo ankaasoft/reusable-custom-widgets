@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class buttonWgt extends StatelessWidget {
+class ButtonWgt extends StatelessWidget {
   final String text;
   final Function onPressed;
 
-  buttonWgt({required this.text, required this.onPressed});
+  const ButtonWgt({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -122,5 +122,52 @@ class TextButtonWgt extends StatelessWidget {
             fontSize: fontSize,
           ),
         ));
+  }
+}
+
+class GroupRadioWgt extends StatelessWidget {
+  GroupRadioWgt({
+    super.key,
+    required this.radioStatus,
+    required this.onChangedRadio,
+    required this.text1,
+    required this.text2,
+  });
+
+  final int radioStatus;
+  final Function onChangedRadio;
+  String text1;
+  String text2;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+            children: [
+              Radio(
+                value: 0,
+                groupValue: radioStatus,
+                onChanged: (int? value){ onChangedRadio(value);},
+              ),
+              const SizedBox(width: 8.0),
+              Text(text1)
+            ]
+        ),
+        Row(
+            children: [
+              Radio(
+                value: 1,
+                groupValue: radioStatus,
+                onChanged: (int? value){ onChangedRadio(value);},
+              ),
+              const SizedBox(width: 8.0),
+              Text(text2)
+            ]
+        )
+      ],
+    );
   }
 }
