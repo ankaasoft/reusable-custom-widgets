@@ -1,11 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:intl/intl.dart';
 
-BoxDecoration buildBoxDecoration() {
+BoxDecoration buildBoxDecoration10() {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(10),
+    color: Colors.white,
+    border: Border.all(
+      width: 1.0,
+    ),
+  );
+}
+
+BoxDecoration buildBoxDecoration20() {
+  return BoxDecoration(
+    borderRadius: BorderRadius.circular(20),
     color: Colors.white,
     border: Border.all(
       width: 1.0,
@@ -27,3 +36,24 @@ Text buildTextNumberFormat(numberValue) {
     textAlign: TextAlign.end,
   );
 }
+
+Future<dynamic> buildShowDialog(BuildContext context, int title, String message) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('&title'),
+        content: Text(message),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Close'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
